@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 
 // 🔑 AQUÍ PON TU API KEY DE GEMINI (obtenla gratis en https://aistudio.google.com/app/apikey)
-const GEMINI_API_KEY = "TU_API_KEY_AQUI";
+const GEMINI_API_KEY = "AIzaSyA7MIHAkaNGTsE2zANeYUgrRwoZeTVdPk4";
 
 // ─── ESTILOS GLOBALES ────────────────────────────────────────────────────────
 const styleTag = `
