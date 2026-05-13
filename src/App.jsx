@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 
-// 🔑 AQUÍ PON TU API KEY DE GEMINI (obtenla gratis en https://aistudio.google.com/app/apikey)
-const GEMINI_API_KEY = "AIzaSyA7MIHAkaNGTsE2zANeYUgrRwoZeTVdPk4";
+// 🔑 OBTÉN TU API KEY AQUÍ: https://aistudio.google.com/app/apikey
+const GEMINI_API_KEY = "TU_API_KEY_AQUI";  // <-- CAMBIA ESTO
 
 // ─── ESTILOS GLOBALES ────────────────────────────────────────────────────────
 const styleTag = `
@@ -220,9 +220,9 @@ HORA:
     const userMsg = `Analiza esta foto de uñas y genera el contenido completo.${extra ? `\nDetalle extra: ${extra}` : ""}`;
 
     try {
-      // Llamada a Gemini con imagen en base64
+      // Usamos gemini-1.0-pro-vision que sí soporta imágenes
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.0-pro-vision:generateContent?key=${GEMINI_API_KEY}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
