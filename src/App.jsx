@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 
 // 🔑 OBTÉN TU API KEY AQUÍ: https://aistudio.google.com/app/apikey
-const GEMINI_API_KEY = "AIzaSyAKFfjpILLrvCcmUTM-U0mPqf1pEFUyi20";  // <-- CAMBIA ESTO
+const GEMINI_API_KEY = "AIzaSyAKFfjpILLrvCcmUTM-U0mPqf1pEFUyi20";  // <--- CAMBIA ESTO
 
 // ─── ESTILOS GLOBALES ────────────────────────────────────────────────────────
 const styleTag = `
@@ -74,14 +74,11 @@ function readFileAsBase64(file) {
   });
 }
 
-// ─── MICRO-COMPONENTES ───────────────────────────────────────────────────────
+// ─── COMPONENTES DE UI ───────────────────────────────────────────────────────
 function Section({ label, children }) {
   return (
     <div style={{ marginBottom: 16 }}>
-      <div style={{
-        fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase",
-        color: "rgba(200,80,160,0.65)", marginBottom: 10,
-      }}>
+      <div style={{ fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(200,80,160,0.65)", marginBottom: 10 }}>
         {label}
       </div>
       {children}
@@ -92,11 +89,11 @@ function Section({ label, children }) {
 function ChipButton({ active, onClick, children, accent = "#c850a0" }) {
   return (
     <button onClick={onClick} style={{
-      padding: "8px 14px", borderRadius: 20, fontSize: 12,
-      cursor: "pointer", transition: "all 0.2s", fontFamily: "'DM Mono',monospace",
-      border:      active ? `1px solid ${accent}cc`          : "1px solid rgba(255,255,255,0.1)",
-      background:  active ? `${accent}28`                    : "rgba(255,255,255,0.03)",
-      color:       active ? "#f5c0e0"                        : "rgba(240,223,240,0.45)",
+      padding: "8px 14px", borderRadius: 20, fontSize: 12, cursor: "pointer",
+      transition: "all 0.2s", fontFamily: "'DM Mono',monospace",
+      border: active ? `1px solid ${accent}cc` : "1px solid rgba(255,255,255,0.1)",
+      background: active ? `${accent}28` : "rgba(255,255,255,0.03)",
+      color: active ? "#f5c0e0" : "rgba(240,223,240,0.45)",
     }}>
       {children}
     </button>
@@ -106,14 +103,10 @@ function ChipButton({ active, onClick, children, accent = "#c850a0" }) {
 function ResultBlock({ title, children, borderColor = "rgba(200,80,160,0.2)" }) {
   return (
     <div style={{
-      background: "rgba(255,255,255,0.04)",
-      border: `1px solid ${borderColor}`,
+      background: "rgba(255,255,255,0.04)", border: `1px solid ${borderColor}`,
       borderRadius: 16, padding: 16, marginBottom: 12,
     }}>
-      <div style={{
-        fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase",
-        color: "rgba(240,223,240,0.3)", marginBottom: 10,
-      }}>
+      <div style={{ fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(240,223,240,0.3)", marginBottom: 10 }}>
         {title}
       </div>
       {children}
@@ -126,12 +119,10 @@ function CopyButton({ text, label, copiedKey, copied, onCopy }) {
   return (
     <button onClick={() => onCopy(text, copiedKey)} style={{
       marginTop: 12, width: "100%", padding: "10px",
-      background: done ? "rgba(80,200,120,0.15)"        : "rgba(200,80,160,0.1)",
-      border:     done ? "1px solid rgba(80,200,120,0.4)" : "1px solid rgba(200,80,160,0.25)",
-      borderRadius: 10,
-      color:      done ? "#80f0a0"                       : "#f5c0e0",
-      fontSize: 11, cursor: "pointer", fontFamily: "'DM Mono',monospace",
-      letterSpacing: "0.08em", transition: "all 0.3s",
+      background: done ? "rgba(80,200,120,0.15)" : "rgba(200,80,160,0.1)",
+      border: done ? "1px solid rgba(80,200,120,0.4)" : "1px solid rgba(200,80,160,0.25)",
+      borderRadius: 10, color: done ? "#80f0a0" : "#f5c0e0", fontSize: 11,
+      cursor: "pointer", fontFamily: "'DM Mono',monospace", letterSpacing: "0.08em", transition: "all 0.3s",
     }}>
       {done ? "✓ copiado" : label}
     </button>
@@ -155,11 +146,7 @@ function Dots() {
 function Divider({ label }) {
   const line = { flex: 1, height: 1, background: "rgba(200,80,160,0.2)" };
   return (
-    <div style={{
-      fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase",
-      color: "#c850a0", marginBottom: 14,
-      display: "flex", alignItems: "center", gap: 10,
-    }}>
+    <div style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "#c850a0", marginBottom: 14, display: "flex", alignItems: "center", gap: 10 }}>
       <div style={line}/>{label}<div style={line}/>
     </div>
   );
@@ -168,16 +155,16 @@ function Divider({ label }) {
 // ─── COMPONENTE PRINCIPAL ────────────────────────────────────────────────────
 export default function NailAgent() {
   const [imageURL, setImageURL] = useState(null);
-  const [imgData,  setImgData]  = useState(null);
+  const [imgData, setImgData] = useState(null);
   const [imgReady, setImgReady] = useState(false);
-  const [tone,     setTone]     = useState("elegante");
+  const [tone, setTone] = useState("elegante");
   const [platform, setPlatform] = useState("instagram");
-  const [extra,    setExtra]    = useState("");
-  const [loading,  setLoading]  = useState(false);
-  const [result,   setResult]   = useState(null);
-  const [error,    setError]    = useState(null);
-  const [copied,   setCopied]   = useState("");
-  const prevURL  = useRef(null);
+  const [extra, setExtra] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+  const [copied, setCopied] = useState("");
+  const prevURL = useRef(null);
 
   const handleFile = useCallback(async (file) => {
     if (!file || !file.type.startsWith("image/")) return;
@@ -220,47 +207,31 @@ HORA:
     const userMsg = `Analiza esta foto de uñas y genera el contenido completo.${extra ? `\nDetalle extra: ${extra}` : ""}`;
 
     try {
-      // Usamos gemini-1.0-pro-vision que sí soporta imágenes
+      // Usamos el modelo gemini-1.5-pro (compatible con imágenes)
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.0-pro-vision:generateContent?key=${GEMINI_API_KEY}`,
+        `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${GEMINI_API_KEY}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            contents: [
-              {
-                parts: [
-                  { text: systemPrompt + "\n\n" + userMsg },
-                  {
-                    inlineData: {
-                      mimeType: imgData.mediaType,
-                      data: imgData.base64,
-                    },
-                  },
-                ],
-              },
-            ],
-            generationConfig: {
-              temperature: 0.7,
-              maxOutputTokens: 1000,
-            },
-          }),
+            contents: [{
+              parts: [
+                { text: systemPrompt + "\n\n" + userMsg },
+                { inlineData: { mimeType: imgData.mediaType, data: imgData.base64 } }
+              ]
+            }],
+            generationConfig: { temperature: 0.7, maxOutputTokens: 1000 }
+          })
         }
       );
 
       const data = await response.json();
-
-      if (!response.ok) {
-        const errorMsg = data.error?.message || `Error ${response.status}`;
-        throw new Error(errorMsg);
-      }
-
+      if (!response.ok) throw new Error(data.error?.message || `Error ${response.status}`);
       const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!text) throw new Error("La IA no devolvió contenido. Intenta de nuevo.");
-
+      if (!text) throw new Error("La IA no devolvió contenido.");
       setResult(parseResult(text));
     } catch (err) {
-      console.error("Error Gemini:", err);
+      console.error(err);
       setError(err.message || "Error de conexión. Intenta de nuevo.");
     } finally {
       setLoading(false);
@@ -273,12 +244,13 @@ HORA:
       setCopied(key);
       setTimeout(() => setCopied(""), 2500);
     } else {
-      setError("No se pudo copiar automáticamente. Mantén pulsado el texto para copiar.");
+      setError("No se pudo copiar automáticamente. Mantén pulsado el texto.");
     }
   };
 
   const reset = () => {
-    if (prevURL.current) { URL.revokeObjectURL(prevURL.current); prevURL.current = null; }
+    if (prevURL.current) URL.revokeObjectURL(prevURL.current);
+    prevURL.current = null;
     setImageURL(null);
     setImgData(null);
     setImgReady(false);
@@ -287,266 +259,58 @@ HORA:
     setExtra("");
   };
 
-  const tags = result?.hashtags
-    ? result.hashtags.split(/\s+/).filter(t => t.startsWith("#")).slice(0, 25)
-    : [];
-
+  const tags = result?.hashtags ? result.hashtags.split(/\s+/).filter(t => t.startsWith("#")).slice(0, 25) : [];
   const canGenerate = imgReady && !loading;
-  const btnLabel = loading      ? "⏳ Generando copy…"
-                 : !imageURL    ? "Sube una foto primero"
-                 : !imgReady    ? "Cargando imagen…"
-                 :                "✨ Generar Contenido";
+  const btnLabel = loading ? "⏳ Generando copy…" : !imageURL ? "Sube una foto primero" : !imgReady ? "Cargando imagen…" : "✨ Generar Contenido";
 
   return (
     <>
       <style>{styleTag}</style>
-      <div style={{
-        minHeight: "100vh",
-        background: "linear-gradient(160deg,#12001e 0%,#1e0030 50%,#0e0818 100%)",
-        fontFamily: "'DM Mono',monospace",
-        color: "#f0dff0",
-        maxWidth: 480,
-        margin: "0 auto",
-        paddingBottom: 80,
-      }}>
-        {/* HEADER */}
-        <div style={{
-          padding: "36px 20px 24px", textAlign: "center",
-          borderBottom: "1px solid rgba(200,80,160,0.15)",
-        }}>
-          <div style={{
-            fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase",
-            color: "rgba(240,223,240,0.35)", marginBottom: 10,
-          }}>
-            AI Secretaria · Módulo Marketing
-          </div>
-          <h1 style={{
-            margin: 0, fontFamily: "'Playfair Display',serif",
-            fontSize: 28, fontWeight: 600,
-            background: "linear-gradient(135deg,#f5c0e0 0%,#e0a8f5 50%,#a8c8f5 100%)",
-            backgroundSize: "200% auto",
-            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-            animation: "shimmer 4s linear infinite", lineHeight: 1.2,
-          }}>
-            Nail Content<br/>
-            <span style={{ fontStyle: "italic", fontWeight: 400 }}>Studio</span>
-          </h1>
-          <p style={{
-            margin: "10px 0 0", fontSize: 11,
-            color: "rgba(240,223,240,0.3)", letterSpacing: "0.08em",
-          }}>
-            sube foto → copy listo en segundos
-          </p>
+      <div style={{ minHeight: "100vh", background: "linear-gradient(160deg,#12001e 0%,#1e0030 50%,#0e0818 100%)", fontFamily: "'DM Mono',monospace", color: "#f0dff0", maxWidth: 480, margin: "0 auto", paddingBottom: 80 }}>
+        <div style={{ padding: "36px 20px 24px", textAlign: "center", borderBottom: "1px solid rgba(200,80,160,0.15)" }}>
+          <div style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(240,223,240,0.35)", marginBottom: 10 }}>AI Secretaria · Módulo Marketing</div>
+          <h1 style={{ margin: 0, fontFamily: "'Playfair Display',serif", fontSize: 28, fontWeight: 600, background: "linear-gradient(135deg,#f5c0e0 0%,#e0a8f5 50%,#a8c8f5 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", animation: "shimmer 4s linear infinite", lineHeight: 1.2 }}>Nail Content<br/><span style={{ fontStyle: "italic", fontWeight: 400 }}>Studio</span></h1>
+          <p style={{ margin: "10px 0 0", fontSize: 11, color: "rgba(240,223,240,0.3)", letterSpacing: "0.08em" }}>sube foto → copy listo en segundos</p>
         </div>
-
         <div style={{ padding: "24px 16px 0" }}>
-          {/* PASO 1: FOTO */}
           <Section label="01 · Foto de las uñas">
             <label className="upload-label">
-              <input
-                type="file"
-                accept="image/jpeg,image/png,image/webp,image/heic"
-                onChange={e => handleFile(e.target.files[0])}
-              />
-              <div style={{
-                border: imageURL
-                  ? "2px solid rgba(200,80,160,0.5)"
-                  : "2px dashed rgba(200,80,160,0.3)",
-                borderRadius: 18, overflow: "hidden", cursor: "pointer",
-                background: "rgba(200,80,160,0.05)",
-                minHeight: imageURL ? "auto" : 140,
-                display: "flex", flexDirection: "column",
-                alignItems: "center", justifyContent: "center",
-                transition: "all 0.3s", position: "relative",
-              }}>
+              <input type="file" accept="image/jpeg,image/png,image/webp" onChange={e => handleFile(e.target.files[0])} />
+              <div style={{ border: imageURL ? "2px solid rgba(200,80,160,0.5)" : "2px dashed rgba(200,80,160,0.3)", borderRadius: 18, overflow: "hidden", cursor: "pointer", background: "rgba(200,80,160,0.05)", minHeight: imageURL ? "auto" : 140, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", transition: "all 0.3s", position: "relative" }}>
                 {imageURL ? (
                   <>
-                    <img src={imageURL} alt="preview" style={{
-                      width: "100%", maxHeight: 220, objectFit: "cover", display: "block",
-                    }}/>
-                    {!imgReady && (
-                      <div style={{
-                        position: "absolute", inset: 0,
-                        background: "rgba(18,0,30,0.65)",
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        fontSize: 12, color: "rgba(240,223,240,0.6)",
-                      }}>
-                        Cargando imagen…
-                      </div>
-                    )}
-                    <div style={{
-                      position: "absolute", bottom: 10, right: 10,
-                      background: "rgba(0,0,0,0.55)", borderRadius: 20,
-                      padding: "4px 12px", fontSize: 10, color: "#f0dff0",
-                      backdropFilter: "blur(8px)",
-                    }}>
-                      cambiar foto
-                    </div>
+                    <img src={imageURL} alt="preview" style={{ width: "100%", maxHeight: 220, objectFit: "cover", display: "block" }} />
+                    {!imgReady && <div style={{ position: "absolute", inset: 0, background: "rgba(18,0,30,0.65)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, color: "rgba(240,223,240,0.6)" }}>Cargando imagen…</div>}
+                    <div style={{ position: "absolute", bottom: 10, right: 10, background: "rgba(0,0,0,0.55)", borderRadius: 20, padding: "4px 12px", fontSize: 10, color: "#f0dff0", backdropFilter: "blur(8px)" }}>cambiar foto</div>
                   </>
                 ) : (
                   <>
                     <div style={{ fontSize: 40, marginBottom: 8 }}>💅</div>
-                    <div style={{
-                      fontSize: 13, color: "rgba(240,223,240,0.45)",
-                      textAlign: "center", padding: "0 20px", lineHeight: 1.6,
-                    }}>
-                      Toca para subir<br/>
-                      <span style={{ fontSize: 11, color: "rgba(240,223,240,0.25)" }}>
-                        Cámara o galería · JPG / PNG
-                      </span>
-                    </div>
+                    <div style={{ fontSize: 13, color: "rgba(240,223,240,0.45)", textAlign: "center", padding: "0 20px", lineHeight: 1.6 }}>Toca para subir<br/><span style={{ fontSize: 11, color: "rgba(240,223,240,0.25)" }}>JPG / PNG</span></div>
                   </>
                 )}
               </div>
             </label>
           </Section>
-
-          {/* PASO 2: TONO */}
-          <Section label="02 · Tono">
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              {TONES.map(t => (
-                <ChipButton key={t.value} active={tone === t.value} onClick={() => setTone(t.value)}>
-                  {t.emoji} {t.label}
-                </ChipButton>
-              ))}
-            </div>
-          </Section>
-
-          {/* PASO 3: PLATAFORMA */}
-          <Section label="03 · Plataforma">
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              {PLATFORMS.map(p => (
-                <ChipButton key={p.value} active={platform === p.value} onClick={() => setPlatform(p.value)} accent="#8050c8">
-                  {p.emoji} {p.label}
-                </ChipButton>
-              ))}
-            </div>
-          </Section>
-
-          {/* PASO 4: EXTRA */}
-          <Section label="04 · Detalle extra (opcional)">
-            <textarea
-              value={extra}
-              onChange={e => setExtra(e.target.value)}
-              placeholder="Ej: gel francés, promo 2x1, clienta VIP…"
-              rows={2}
-              style={{
-                width: "100%", background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(200,80,160,0.2)", borderRadius: 12,
-                padding: "12px 14px", color: "#f0dff0", fontSize: 13,
-                outline: "none", resize: "none",
-                fontFamily: "'DM Mono',monospace", lineHeight: 1.6,
-              }}
-            />
-          </Section>
-
-          {/* BOTÓN GENERAR */}
-          <button
-            onClick={generate}
-            disabled={!canGenerate}
-            style={{
-              width: "100%", padding: "18px",
-              background: canGenerate
-                ? "linear-gradient(135deg,#c850a0,#8050c8)"
-                : "rgba(200,80,160,0.1)",
-              border: "none", borderRadius: 16,
-              color: canGenerate ? "#fff" : "rgba(240,223,240,0.25)",
-              fontSize: 15, fontWeight: 600,
-              cursor: canGenerate ? "pointer" : "not-allowed",
-              fontFamily: "'DM Mono',monospace", letterSpacing: "0.06em",
-              transition: "all 0.3s",
-              boxShadow: canGenerate ? "0 8px 32px rgba(200,80,160,0.3)" : "none",
-            }}
-          >
-            {btnLabel}
-          </button>
-
+          <Section label="02 · Tono"><div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>{TONES.map(t => <ChipButton key={t.value} active={tone === t.value} onClick={() => setTone(t.value)}>{t.emoji} {t.label}</ChipButton>)}</div></Section>
+          <Section label="03 · Plataforma"><div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>{PLATFORMS.map(p => <ChipButton key={p.value} active={platform === p.value} onClick={() => setPlatform(p.value)} accent="#8050c8">{p.emoji} {p.label}</ChipButton>)}</div></Section>
+          <Section label="04 · Detalle extra (opcional)"><textarea value={extra} onChange={e => setExtra(e.target.value)} placeholder="Ej: gel francés, promo 2x1, clienta VIP…" rows={2} style={{ width: "100%", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(200,80,160,0.2)", borderRadius: 12, padding: "12px 14px", color: "#f0dff0", fontSize: 13, outline: "none", resize: "none", fontFamily: "'DM Mono',monospace", lineHeight: 1.6 }} /></Section>
+          <button onClick={generate} disabled={!canGenerate} style={{ width: "100%", padding: "18px", background: canGenerate ? "linear-gradient(135deg,#c850a0,#8050c8)" : "rgba(200,80,160,0.1)", border: "none", borderRadius: 16, color: canGenerate ? "#fff" : "rgba(240,223,240,0.25)", fontSize: 15, fontWeight: 600, cursor: canGenerate ? "pointer" : "not-allowed", fontFamily: "'DM Mono',monospace", letterSpacing: "0.06em", transition: "all 0.3s", boxShadow: canGenerate ? "0 8px 32px rgba(200,80,160,0.3)" : "none" }}>{btnLabel}</button>
           {loading && <Dots/>}
-
-          {/* ERROR */}
-          {error && (
-            <div style={{
-              marginTop: 16, padding: 14,
-              background: "rgba(200,60,60,0.08)",
-              border: "1px solid rgba(200,60,60,0.3)",
-              borderRadius: 12, color: "#f5a0a0",
-              fontSize: 12, lineHeight: 1.5,
-            }}>
-              ⚠️ {error}
-            </div>
-          )}
-
-          {/* RESULTADO */}
+          {error && <div style={{ marginTop: 16, padding: 14, background: "rgba(200,60,60,0.08)", border: "1px solid rgba(200,60,60,0.3)", borderRadius: 12, color: "#f5a0a0", fontSize: 12, lineHeight: 1.5 }}>⚠️ {error}</div>}
           {result && (
             <div style={{ marginTop: 24, animation: "fadeUp 0.5s ease" }}>
               <Divider label="contenido listo"/>
-              <ResultBlock title="Caption">
-                <div style={{ fontSize: 14, lineHeight: 1.75, whiteSpace: "pre-wrap" }}>
-                  {result.caption}
-                </div>
-                <CopyButton text={result.caption} label="copiar caption" copiedKey="caption" copied={copied} onCopy={handleCopy}/>
-              </ResultBlock>
-              {tags.length > 0 && (
-                <ResultBlock title={`Hashtags (${tags.length})`} borderColor="rgba(168,120,245,0.25)">
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                    {tags.map((t, i) => (
-                      <span key={i} style={{
-                        background: "rgba(168,120,245,0.12)",
-                        border: "1px solid rgba(168,120,245,0.25)",
-                        borderRadius: 20, padding: "4px 10px",
-                        fontSize: 11, color: "#d4b4f0",
-                      }}>{t}</span>
-                    ))}
-                  </div>
-                  <CopyButton text={tags.join(" ")} label="copiar hashtags" copiedKey="tags" copied={copied} onCopy={handleCopy}/>
-                </ResultBlock>
-              )}
-              {result.hora && (
-                <ResultBlock title="Mejor hora para publicar" borderColor="rgba(168,200,245,0.2)">
-                  <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
-                    <span style={{ fontSize: 22, lineHeight: 1 }}>⏰</span>
-                    <div style={{ fontSize: 13, color: "#c8d8f5", lineHeight: 1.5 }}>
-                      {result.hora}
-                    </div>
-                  </div>
-                </ResultBlock>
-              )}
-              <button onClick={reset} style={{
-                width: "100%", padding: "14px", marginTop: 4,
-                background: "transparent",
-                border: "1px solid rgba(200,80,160,0.18)",
-                borderRadius: 14, color: "rgba(240,223,240,0.35)",
-                fontSize: 12, cursor: "pointer",
-                fontFamily: "'DM Mono',monospace", letterSpacing: "0.08em",
-              }}>
-                ↩ nueva foto
-              </button>
+              <ResultBlock title="Caption"><div style={{ fontSize: 14, lineHeight: 1.75, whiteSpace: "pre-wrap" }}>{result.caption}</div><CopyButton text={result.caption} label="copiar caption" copiedKey="caption" copied={copied} onCopy={handleCopy}/></ResultBlock>
+              {tags.length > 0 && <ResultBlock title={`Hashtags (${tags.length})`} borderColor="rgba(168,120,245,0.25)"><div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{tags.map((t, i) => <span key={i} style={{ background: "rgba(168,120,245,0.12)", border: "1px solid rgba(168,120,245,0.25)", borderRadius: 20, padding: "4px 10px", fontSize: 11, color: "#d4b4f0" }}>{t}</span>)}</div><CopyButton text={tags.join(" ")} label="copiar hashtags" copiedKey="tags" copied={copied} onCopy={handleCopy}/></ResultBlock>}
+              {result.hora && <ResultBlock title="Mejor hora para publicar" borderColor="rgba(168,200,245,0.2)"><div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}><span style={{ fontSize: 22, lineHeight: 1 }}>⏰</span><div style={{ fontSize: 13, color: "#c8d8f5", lineHeight: 1.5 }}>{result.hora}</div></div></ResultBlock>}
+              <button onClick={reset} style={{ width: "100%", padding: "14px", marginTop: 4, background: "transparent", border: "1px solid rgba(200,80,160,0.18)", borderRadius: 14, color: "rgba(240,223,240,0.35)", fontSize: 12, cursor: "pointer", fontFamily: "'DM Mono',monospace", letterSpacing: "0.08em" }}>↩ nueva foto</button>
             </div>
           )}
-
           {!result && !loading && (
             <div style={{ marginTop: 28, paddingBottom: 8 }}>
-              <div style={{
-                fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase",
-                color: "rgba(200,80,160,0.35)", marginBottom: 12, textAlign: "center",
-              }}>
-                Consejos
-              </div>
-              {[
-                { icon: "💡", text: "Buena luz natural = mejor análisis de la IA" },
-                { icon: "🕕", text: "Publica entre 18:00–20:00 para más alcance" },
-                { icon: "✍️", text: "Añade detalle extra para copys únicos" },
-              ].map((tip, i, arr) => (
-                <div key={i} style={{
-                  display: "flex", alignItems: "center", gap: 12, padding: "10px 0",
-                  borderBottom: i < arr.length-1 ? "1px solid rgba(255,255,255,0.05)" : "none",
-                }}>
-                  <span style={{ fontSize: 18 }}>{tip.icon}</span>
-                  <span style={{ fontSize: 12, color: "rgba(240,223,240,0.38)", lineHeight: 1.4 }}>
-                    {tip.text}
-                  </span>
-                </div>
-              ))}
+              <div style={{ fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(200,80,160,0.35)", marginBottom: 12, textAlign: "center" }}>Consejos</div>
+              {[{ icon: "💡", text: "Buena luz natural = mejor análisis de la IA" }, { icon: "🕕", text: "Publica entre 18:00–20:00 para más alcance" }, { icon: "✍️", text: "Añade detalle extra para copys únicos" }].map((tip, i, arr) => <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: i < arr.length-1 ? "1px solid rgba(255,255,255,0.05)" : "none" }}><span style={{ fontSize: 18 }}>{tip.icon}</span><span style={{ fontSize: 12, color: "rgba(240,223,240,0.38)", lineHeight: 1.4 }}>{tip.text}</span></div>)}
             </div>
           )}
         </div>
