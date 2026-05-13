@@ -1,7 +1,8 @@
 import { useState, useRef, useCallback } from "react";
 
 // 🔑 OBTÉN TU API KEY AQUÍ: https://aistudio.google.com/app/apikey
-const GEMINI_API_KEY = "AIzaSyAKFfjpILLrvCcmUTM-U0mPqf1pEFUyi20";  // <--- CAMBIA ESTO
+// Esta clave debe tener acceso a gemini-2.5-flash (es gratuita)
+const GEMINI_API_KEY = "AIzaSyAKFfjpILLrvCcmUTM-U0mPqf1pEFUyi20";  // <-- CAMBIA ESTO
 
 // ─── ESTILOS GLOBALES ────────────────────────────────────────────────────────
 const styleTag = `
@@ -74,7 +75,7 @@ function readFileAsBase64(file) {
   });
 }
 
-// ─── COMPONENTES DE UI ───────────────────────────────────────────────────────
+// ─── COMPONENTES UI ──────────────────────────────────────────────────────────
 function Section({ label, children }) {
   return (
     <div style={{ marginBottom: 16 }}>
@@ -207,9 +208,9 @@ HORA:
     const userMsg = `Analiza esta foto de uñas y genera el contenido completo.${extra ? `\nDetalle extra: ${extra}` : ""}`;
 
     try {
-      // Usamos el modelo gemini-1.5-pro (compatible con imágenes)
+      // ✅ Usamos gemini-2.5-flash (gratuito, moderno y compatible con imágenes)
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${GEMINI_API_KEY}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
